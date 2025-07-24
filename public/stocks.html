@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Management</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #600a96, #ffffff);
+      color: white;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px 0;
+      background: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .navbar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      color: #333;
+      min-width: 160px;
+      padding: 10px 0;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      border-radius: 5px;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 14px;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .summary {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .summary div {
+      flex: 1;
+      margin: 0 10px;
+    }
+
+    .summary div span {
+      display: block;
+      font-size: 1.2em;
+      margin-top: 5px;
+    }
+
+    .transaction-table {
+      margin-top: 20px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .transaction-table th, .transaction-table td {
+      text-align: center;
+      padding: 10px;
+    }
+
+    .transaction-table th {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .transaction-table td {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background: #6a11cb;
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+
+    .btn:hover {
+      background: #501a96;
+    }
+
+    .ticker {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      font-size: 18px;
+      padding: 5px 0;
+      z-index: 10;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .ticker-content {
+      display: flex;
+      animation: tickerMove 30s linear infinite; /* Adjusted animation speed */
+    }
+
+    .ticker-item {
+      display: inline-block;
+      margin-right: 50px;
+      white-space: nowrap;
+    }
+
+    @keyframes tickerMove {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .stock-item {
+      display: inline-block;
+      margin: 0 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="project.html">Home</a>
+    <div class="dropdown">
+      <a href="#">Portfolio</a>
+      <div class="dropdown-content">
+        <a href="stocks.html">Stocks</a>
+        <a href="mutual_funds.html">Mutual Funds</a>
+        <a href="crypto.html">Crypto</a>
+      </div>
+    </div>
+    <a href="user_login.html">Login</a>
+    <a href="user_reg.html">Register</a>
+  </div>
+
+  <div style="text-align: center; margin: 20px 0;">
+    <button onclick="togglePortfolio('stocksPortfolio', 'cryptosPortfolio', 'taxesInsights')" class="btn">Stocks</button>
+    <button onclick="togglePortfolio('cryptosPortfolio', 'stocksPortfolio', 'taxesInsights')" class="btn">Crypto</button>
+    <button onclick="togglePortfolio('taxesInsights', 'stocksPortfolio', 'cryptosPortfolio')" class="btn">Taxes and Insights</button>
+  </div>
+  
+  <script>
+    function togglePortfolio(showId, hideId) {
+      // Hide the inactive portfolio
+      document.getElementById(hideId).style.display = 'none';
+  
+      // Show the active portfolio
+      document.getElementById(showId).style.display = 'block';
+    }
+  
+    // Default: Show the Stocks Portfolio
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('stocksPortfolio').style.display = 'block';
+      document.getElementById('cryptoPortfolio').style.display = 'none';
+    });
+  </script>
+  
+  
+  
+<!-- Stocks Portfolio Section -->
+<div id="stocksPortfolio" class="container">
+  <h1>Manage Your Stock Portfolio</h1>
+  <div class="summary">
+      <div>
+          <strong>Latest Value</strong>
+          <span id="stocksLatestValue">₹0</span>
+      </div>
+      <div>
+          <strong>Amount Invested</strong>
+          <span id="stocksAmountInvested">₹0</span>
+      </div>
+      <div>
+          <strong>Realized Gain</strong>
+          <span id="stocksRealizedGain">₹0</span>
+      </div>
+  </div>
+
+  <form id="transactionForm">
+      <table class="transaction-table" id="transactionTable">
+          <thead>
+              <tr>
+                  <th>Transaction</th>
+                  <th>Stock Name</th>
+                  <th>Quantity</th>
+                  <th>Price/Stock (₹)</th>
+                  <th>Date</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>
+                      <select required>
+                          <option value="buy">Buy</option>
+                          <option value="sell">Sell</option>
+                      </select>
+                  </td>
+                  <td>
+                      <select required>
+                          <option value="TCS">TCS</option>
+                          <option value="INFY">Infosys</option>
+                          <option value="RELIANCE">Reliance</option>
+                          <option value="HDFCBANK">HDFC Bank</option>
+                          <option value="ITC">ITC</option>
+                      </select>
+                  </td>
+                  <td>
+                      <input type="number" min="1" required>
+                  </td>
+                  <td>
+                      <input type="number" min="1" required>
+                  </td>
+                  <td>
+                      <input type="date" required>
+                  </td>
+                  <td>
+                      <button type="button" class="btn removeRow">Remove</button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <button type="button" class="btn" id="addRow">Add More Transactions</button>
+      <button type="submit" class="btn">Submit Transactions</button>
+  </form>
+
+  <div>
+      <h2>Your Portfolio</h2>
+      <table class="transaction-table">
+          <thead>
+              <tr>
+                  <th>Stock</th>
+                  <th>Quantity</th>
+                  <th>Average Price (₹)</th>
+                  <th>Total Value (₹)</th>
+              </tr>
+          </thead>
+          <tbody id="portfolioTable">
+              <tr>
+                  <td colspan="4">No transactions yet</td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
+
+<script>
+  const transactionTable = document.getElementById('transactionTable').querySelector('tbody');
+  const portfolioTable = document.getElementById('portfolioTable');
+  const transactionForm = document.getElementById('transactionForm');
+
+  const portfolio = {};
+  let totalInvestment = 0;
+  let realizedGain = 0;
+
+  const stockPrices = {
+      "TCS": 3500,
+      "INFY": 1500,
+      "RELIANCE": 2500,
+      "HDFCBANK": 1700,
+      "ITC": 400
+  };
+
+  function updateSummary() {
+      const latestValue = Object.entries(portfolio).reduce((sum, [stock, data]) => {
+          return sum + (stockPrices[stock] * data.quantity);
+      }, 0);
+
+      document.getElementById('stocksLatestValue').innerText = `₹${latestValue.toFixed(2)}`;
+      document.getElementById('stocksAmountInvested').innerText = `₹${totalInvestment.toFixed(2)}`;
+      document.getElementById('stocksRealizedGain').innerText = `₹${realizedGain.toFixed(2)}`;
+  }
+
+  document.getElementById('addRow').addEventListener('click', () => {
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+          <td>
+              <select required>
+                  <option value="buy">Buy</option>
+                  <option value="sell">Sell</option>
+              </select>
+          </td>
+          <td>
+              <select required>
+                  <option value="TCS">TCS</option>
+                  <option value="INFY">Infosys</option>
+                  <option value="RELIANCE">Reliance</option>
+                  <option value="HDFCBANK">HDFC Bank</option>
+                  <option value="ITC">ITC</option>
+              </select>
+          </td>
+          <td>
+              <input type="number" min="1" required>
+          </td>
+          <td>
+              <input type="number" min="1" required>
+          </td>
+          <td>
+              <input type="date" required>
+          </td>
+          <td>
+              <button type="button" class="btn removeRow">Remove</button>
+          </td>
+      `;
+      transactionTable.appendChild(newRow);
+  });
+
+  transactionTable.addEventListener('click', (e) => {
+      if (e.target.classList.contains('removeRow')) {
+          e.target.closest('tr').remove();
+      }
+  });
+
+  transactionForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const rows = transactionTable.querySelectorAll('tr');
+      rows.forEach(row => {
+          const type = row.querySelector('select').value;
+          const stockName = row.querySelectorAll('select')[1].value;
+          const quantity = parseInt(row.querySelector('input[type="number"]').value);
+          const price = parseFloat(row.querySelectorAll('input[type="number"]')[1].value);
+
+          if (!portfolio[stockName]) {
+              portfolio[stockName] = { quantity: 0, totalValue: 0, transactions: [] };
+          }
+
+          if (type === 'buy') {
+              portfolio[stockName].quantity += quantity;
+              portfolio[stockName].totalValue += quantity * price;
+              portfolio[stockName].transactions.push({ type, quantity, price });
+              totalInvestment += quantity * price;
+          } else {
+              if (portfolio[stockName].quantity >= quantity) {
+                  let remainingQuantity = quantity;
+                  let totalSellValue = 0;
+                  let totalBuyValue = 0;
+
+                  // Handle sell by reducing the stock quantity and calculating the realized gain
+                  portfolio[stockName].transactions.forEach((transaction, index) => {
+                      if (remainingQuantity > 0 && transaction.type === 'buy') {
+                          const quantityToSell = Math.min(remainingQuantity, transaction.quantity);
+                          const buyValue = quantityToSell * transaction.price;
+
+                          totalBuyValue += buyValue;
+                          totalSellValue += quantityToSell * price;
+
+                          portfolio[stockName].transactions[index].quantity -= quantityToSell;
+                          remainingQuantity -= quantityToSell;
+                      }
+                  });
+
+                  realizedGain += totalSellValue - totalBuyValue;
+                  portfolio[stockName].quantity -= quantity;
+              } else {
+                  alert('Not enough stocks to sell!');
+              }
+          }
+      });
+
+      updatePortfolio();
+      updateSummary();
+  });
+
+  function updatePortfolio() {
+      portfolioTable.innerHTML = '';
+      for (let stock in portfolio) {
+          if (portfolio[stock].quantity > 0) {
+              const avgPrice = (portfolio[stock].totalValue / portfolio[stock].quantity).toFixed(2);
+              const row = `
+                  <tr>
+                      <td>${stock}</td>
+                      <td>${portfolio[stock].quantity}</td>
+                      <td>₹${avgPrice}</td>
+                      <td>₹${(stockPrices[stock] * portfolio[stock].quantity).toFixed(2)}</td>
+                  </tr>
+              `;
+              portfolioTable.innerHTML += row;
+          }
+      }
+  }
+</script>
+
+
+    
+
+<!-- Crypto Portfolio Section -->
+<div id="cryptosPortfolio" class="container">
+  <h1>Crypto Portfolio Trend</h1>
+  <div style="overflow: hidden; white-space: nowrap; position: relative;">
+      <marquee behavior="scroll" direction="left" scrollamount="9" loop="infinite">
+          <span style="display: inline-block; margin-right: 50px; color: #0056b3;">
+              <strong>Bitcoin (BTC):</strong> ₹27,50,000 (+2.3% Upward)
+          </span>
+          <span style="display: inline-block; margin-right: 50px; color: #ff6600;">
+              <strong>Ethereum (ETH):</strong> ₹1,85,000 (+1.5% Stable)
+          </span>
+          <span style="display: inline-block; margin-right: 50px; color: #e60000;">
+              <strong>Binance Coin (BNB):</strong> ₹24,000 (-0.7% Downward)
+          </span>
+          <span style="display: inline-block; margin-right: 50px; color: #008000;">
+              <strong>Ripple (XRP):</strong> ₹75 (+3.1% Upward)
+          </span>
+          <span style="display: inline-block; margin-right: 50px; color: #cc0000;">
+              <strong>Cardano (ADA):</strong> ₹28 (-1.2% Downward)
+          </span>
+      </marquee>
+  </div>
+  <div class="summary" style="margin-top: 20px;">
+      <p><strong>Total Portfolio Value:</strong> ₹<span id="portfolioValue">0</span></p>
+      <p><strong>Amount Invested:</strong> ₹<span id="amountInvested">0</span></p>
+      <p><strong>Overall Realized Gain:</strong> ₹<span id="realizedGain">0</span></p>
+  </div>
+
+  <!-- Watchlist Section -->
+  <div>
+      <h2>Watchlist</h2>
+      <table class="transaction-table">
+          <thead>
+              <tr>
+                  <th>Crypto</th>
+                  <th>Current Price (₹)</th>
+                  <th>24h Change (%)</th>
+                  <th>Quantity</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody id="cryptoWatchlist">
+              <tr>
+                  <td>Bitcoin</td>
+                  <td>₹2,500,000</td>
+                  <td style="color: green;">+3.5%</td>
+                  <td><input type="number" min="1" class="crypto-quantity" placeholder="Qty"></td>
+                  <td><button class="btn add-to-portfolio" data-crypto="Bitcoin" data-price="2500000">Add to Portfolio</button></td>
+              </tr>
+              <tr>
+                  <td>Ethereum</td>
+                  <td>₹180,000</td>
+                  <td style="color: red;">-1.2%</td>
+                  <td><input type="number" min="1" class="crypto-quantity" placeholder="Qty"></td>
+                  <td><button class="btn add-to-portfolio" data-crypto="Ethereum" data-price="180000">Add to Portfolio</button></td>
+              </tr>
+              <tr>
+                  <td>Ripple</td>
+                  <td>₹50</td>
+                  <td style="color: green;">+5.0%</td>
+                  <td><input type="number" min="1" class="crypto-quantity" placeholder="Qty"></td>
+                  <td><button class="btn add-to-portfolio" data-crypto="Ripple" data-price="50">Add to Portfolio</button></td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+
+  <!-- Transaction History Section -->
+  <div>
+      <h2>Transaction History</h2>
+      <table class="transaction-table">
+          <thead>
+              <tr>
+                  <th>Type</th>
+                  <th>Crypto</th>
+                  <th>Quantity</th>
+                  <th>Price/Unit (₹)</th>
+                  <th>Total Value (₹)</th>
+                  <th>Date</th>
+              </tr>
+          </thead>
+          <tbody id="cryptoTransactionHistory">
+              <tr>
+                  <td colspan="6">No transactions yet</td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+</div>
+
+<script>
+  let totalPortfolioValue = 0;
+  let totalInvestedAmount = 0;
+  let totalRealizedGain = 0;
+
+  document.querySelectorAll('.add-to-portfolio').forEach(button => {
+      button.addEventListener('click', () => {
+          const crypto = button.getAttribute('data-crypto');
+          const price = parseFloat(button.getAttribute('data-price'));
+          const quantityInput = button.closest('tr').querySelector('.crypto-quantity');
+          const quantity = parseInt(quantityInput.value);
+
+          if (!quantity || quantity <= 0) {
+              alert('Please enter a valid quantity.');
+              return;
+          }
+
+          const totalValue = price * quantity;
+          const transactionHistory = document.getElementById('cryptoTransactionHistory');
+
+          // Remove "No transactions yet" row if exists
+          const noTransactionsRow = transactionHistory.querySelector('tr td[colspan="6"]');
+          if (noTransactionsRow) noTransactionsRow.parentElement.remove();
+
+          // Add Transaction to History
+          const newRow = document.createElement('tr');
+          newRow.innerHTML = `
+              <td>Buy</td>
+              <td>${crypto}</td>
+              <td>${quantity}</td>
+              <td>₹${price.toLocaleString()}</td>
+              <td>₹${totalValue.toLocaleString()}</td>
+              <td>${new Date().toLocaleDateString()}</td>
+          `;
+          transactionHistory.appendChild(newRow);
+
+          // Update Totals
+          totalPortfolioValue += totalValue;
+          totalInvestedAmount += totalValue;
+
+          // Calculate Realized Gain
+          const gainPercentage = parseFloat(button.closest('tr').querySelector('td:nth-child(3)').innerText);
+          totalRealizedGain += (gainPercentage / 100) * totalValue;
+
+          // Update UI
+          document.getElementById('portfolioValue').textContent = totalPortfolioValue.toLocaleString();
+          document.getElementById('amountInvested').textContent = totalInvestedAmount.toLocaleString();
+          document.getElementById('realizedGain').textContent = totalRealizedGain.toLocaleString();
+
+          // Clear Quantity Input
+          quantityInput.value = '';
+      });
+  });
+</script>
+
+
+
+<!-- Taxes and Insights Section -->
+<div id="taxesInsights" class="container" style="display: none;">
+  <h1>Taxes and Insights</h1>
+  <div id="taxCalculation">
+    <h2>Tax Summary</h2>
+    <p id="realizedGainFormula">Formula: Total Realized Gains = Stock Realized Gains + Crypto Realized Gains</p>
+    <p id="stcgTax">Short-Term Capital Gains Tax: ₹0</p>
+    <p id="ltcgTax">Long-Term Capital Gains Tax: ₹0</p>
+    <p id="cryptoTax">Crypto Tax: ₹0</p>
+    <p id="totalTax">Total Tax Liability: ₹0</p>
+    <h3>Tax Calculation Formula</h3>
+    <p id="taxCalculationFormula">N/A (No transactions yet)</p>
+    <h3>Tax Calculation Criteria</h3>
+    <p><strong>Short-Term Capital Gains (STCG):</strong> Gains from selling stocks held for ≤ 1 year are taxed at 15%.</p>
+    <p><strong>Long-Term Capital Gains (LTCG):</strong> Gains from selling stocks held for > 1 year are taxed at 10% if the gain exceeds ₹1,00,000.</p>
+    <p><strong>Crypto Tax:</strong> Gains from crypto transactions are taxed at 30% irrespective of the holding period. No set-off against losses is allowed.</p>
+  </div>
+</div>
+
+<script>
+  function togglePortfolio(showId, hideId1, hideId2) {
+    document.getElementById(hideId1).style.display = 'none';
+    document.getElementById(hideId2).style.display = 'none';
+
+    const cryptoTransactionSection = document.querySelector('#cryptoTransactionHistory').closest('div');
+    if (cryptoTransactionSection) {
+      cryptoTransactionSection.style.display = showId === 'cryptosPortfolio' ? 'block' : 'none';
+    }
+
+    document.getElementById(showId).style.display = 'block';
+
+    if (showId === 'taxesInsights') {
+      calculateTaxes();
+    }
+  }
+
+  function calculateTaxes() {
+    const stockRealizedGains = parseFloat(document.getElementById('stocksRealizedGain').textContent.replace('₹', '')) || 0;
+    const cryptoRealizedGains = parseFloat(document.getElementById('realizedGain').textContent.replace('₹', '')) || 0;
+
+    const totalRealizedGains = stockRealizedGains + cryptoRealizedGains;
+
+    const stcgTax = stockRealizedGains * 0.15; 
+    const ltcgTax = stockRealizedGains > 100000 ? (stockRealizedGains - 100000) * 0.1 : 0;
+    const cryptoTax = cryptoRealizedGains * 0.3; 
+
+    const totalTax = stcgTax + ltcgTax + cryptoTax;
+
+    document.getElementById('realizedGainFormula').textContent = `Formula: Total Realized Gains = ₹${stockRealizedGains.toLocaleString()} (Stock) + ₹${cryptoRealizedGains.toLocaleString()} (Crypto) = ₹${totalRealizedGains.toLocaleString()}`;
+    document.getElementById('taxCalculationFormula').textContent = `Tax Calculation: 
+      STCG Tax = ₹${stockRealizedGains} × 15% = ₹${stcgTax.toFixed(2)}; 
+      LTCG Tax = ₹${Math.max(stockRealizedGains - 100000, 0)} × 10% = ₹${ltcgTax.toFixed(2)}; 
+      Crypto Tax = ₹${cryptoRealizedGains} × 30% = ₹${cryptoTax.toFixed(2)}; 
+      Total Tax = ₹${totalTax.toFixed(2)}`;
+    document.getElementById('stcgTax').textContent = `Short-Term Capital Gains Tax: ₹${stcgTax.toFixed(2)}`;
+    document.getElementById('ltcgTax').textContent = `Long-Term Capital Gains Tax: ₹${ltcgTax.toFixed(2)}`;
+    document.getElementById('cryptoTax').textContent = `Crypto Tax: ₹${cryptoTax.toFixed(2)}`;
+    document.getElementById('totalTax').textContent = `Total Tax Liability: ₹${totalTax.toFixed(2)}`;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('stocksPortfolio').style.display = 'block';
+    document.getElementById('cryptoPortfolio').style.display = 'none';
+    document.getElementById('taxesInsights').style.display = 'none';
+
+    const cryptoTransactionSection = document.querySelector('#cryptoTransactionHistory').closest('div');
+    if (cryptoTransactionSection) {
+      cryptoTransactionSection.style.display = 'none';
+    }
+  });
+</script>
+
+<div class="ticker">
+  <div class="ticker-content">
+    <!-- List of 50 companies with color changes for percentage -->
+    <div class="ticker-item">TCS: ₹4,124.30 <span style="color: red;">-1.95%</span></div>
+    <div class="ticker-item">INFY: ₹1,815.10 <span style="color: red;">-5.77%</span></div>
+    <div class="ticker-item">RELIANCE: ₹1,301.30 <span style="color: green;">+2.57%</span></div>
+    <div class="ticker-item">HDFCBANK: ₹1,710.00 <span style="color: red;">-0.12%</span></div>
+    <div class="ticker-item">ITC: ₹405.00 <span style="color: red;">-0.49%</span></div>
+    <div class="ticker-item">AXISBANK: ₹900.00 <span style="color: red;">-0.22%</span></div>
+    <div class="ticker-item">ICICIBANK: ₹1,050.00 <span style="color: red;">-0.19%</span></div>
+    <div class="ticker-item">BHEL: ₹80.00 <span style="color: red;">-1.00%</span></div>
+    <div class="ticker-item">GAIL: ₹120.00 <span style="color: green;">+0.50%</span></div>
+    <div class="ticker-item">RELIANCEINFRA: ₹500.00 <span style="color: red;">-0.10%</span></div>
+    <div class="ticker-item">ADANIGREEN: ₹1,000.00 <span style="color: green;">+1.20%</span></div>
+    <div class="ticker-item">ADANIPORTS: ₹750.00 <span style="color: red;">-0.25%</span></div>
+    <div class="ticker-item">TECHM: ₹1,400.00 <span style="color: red;">-0.40%</span></div>
+    <div class="ticker-item">ZOMATO: ₹130.00 <span style="color: green;">+1.50%</span></div>
+    <div class="ticker-item">SHREECEM: ₹25,000.00 <span style="color: red;">-0.10%</span></div>
+    <div class="ticker-item">BHARTIARTL: ₹860.00 <span style="color: red;">-0.23%</span></div>
+    <div class="ticker-item">HUL: ₹2,750.00 <span style="color: red;">-0.18%</span></div>
+    <div class="ticker-item">WIPRO: ₹400.00 <span style="color: red;">-2.12%</span></div>
+    <div class="ticker-item">MARUTI: ₹8,200.00 <span style="color: red;">-0.24%</span></div>
+    <div class="ticker-item">MAHINDRA: ₹1,250.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">SUNPHARMA: ₹1,080.00 <span style="color: red;">-0.18%</span></div>
+    <div class="ticker-item">ULTRACEMCO: ₹8,500.00 <span style="color: red;">-0.18%</span></div>
+    <div class="ticker-item">TATAMOTORS: ₹530.00 <span style="color: red;">-0.19%</span></div>
+    <div class="ticker-item">L&T: ₹2,500.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">HCLTECH: ₹1,789.55 <span style="color: red;">-0.12%</span></div>
+    <div class="ticker-item">ASIANPAINT: ₹3,000.00 <span style="color: red;">-0.17%</span></div>
+    <div class="ticker-item">BAJFINANCE: ₹7,500.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">HDFCLIFE: ₹700.00 <span style="color: red;">-0.14%</span></div>
+    <div class="ticker-item">KOTAKBANK: ₹1,800.00 <span style="color: red;">-0.17%</span></div>
+    <div class="ticker-item">TITAN: ₹2,500.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">JSWSTEEL: ₹800.00 <span style="color: red;">-0.25%</span></div>
+    <div class="ticker-item">NTPC: ₹326.40 <span style="color: green;">+0.25%</span></div>
+    <div class="ticker-item">POWERGRID: ₹200.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">ONGC: ₹150.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">SBI: ₹600.00 <span style="color: red;">-0.17%</span></div>
+    <div class="ticker-item">BAJAJ-AUTO: ₹3,500.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">DIVISLAB: ₹4,000.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">M&M: ₹1,700.00 <span style="color: red;">-0.30%</span></div>
+    <div class="ticker-item">TATAPOWER: ₹220.00 <span style="color: red;">-0.18%</span></div>
+    <div class="ticker-item">UPL: ₹800.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">BPCL: ₹320.00 <span style="color: red;">-0.30%</span></div>
+    <div class="ticker-item">IOC: ₹120.00 <span style="color: red;">-0.50%</span></div>
+    <div class="ticker-item">HINDALCO: ₹600.00 <span style="color: red;">-0.10%</span></div>
+    <div class="ticker-item">AMBUJACEM: ₹300.00 <span style="color: red;">-0.25%</span></div>
+    <div class="ticker-item">ACC: ₹1,800.00 <span style="color: red;">-0.30%</span></div>
+    <div class="ticker-item">BOSCHLTD: ₹20,000.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">CIPLA: ₹900.00 <span style="color: red;">-0.15%</span></div>
+    <div class="ticker-item">SUNTV: ₹550.00 <span style="color: red;">-0.25%</span></div>
+
+    <!-- Duplicate the list to ensure seamless looping -->
+    <div class="ticker-item">TCS: ₹4,124.30 <span style="color: red;">-1.95%</span></div>
+    <div class="ticker-item">INFY: ₹1,815.10 <span style="color: red;">-5.77%</span></div>
+    <div class="ticker-item">RELIANCE: ₹1,301.30 <span style="color: green;">+2.57%</span></div>
+    <div class="ticker-item">HDFCBANK: ₹1,710.00 <span style="color: red;">-0.12%</span></div>
+    <div class="ticker-item">ITC: ₹405.00 <span style="color: red;">-0.49%</span></div>
+    <div class="ticker-item">AXISBANK: ₹900.00 <span style="color: red;">-0.22%</span></div>
+    <div class="ticker-item">ICICIBANK: ₹1,050.00 <span style="color: red;">-0.19%</span></div>
+    <div class="ticker-item">BHARTIARTL: ₹860.00 <span style="color: red;">-0.23%</span></div>
+    <div class="ticker-item">HUL: ₹2,750.00 <span style="color: red;">-0.18%</span></div>
+    <div class="ticker-item">WIPRO: ₹400.00 <span style="color: red;">-2.12%</span></div>
+    <div class="ticker-item">MARUTI: ₹8,200.00 <span style="color: red;">-0.24%</span></div>
+    <div class="ticker-item">MAHINDRA: ₹1,250.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">SUNPHARMA: ₹1,080.00 <span style="color: red;">-0.18%</span></div>
+    <div class="ticker-item">ULTRACEMCO: ₹8,500.00 <span style="color: red;">-0.18%</span></div>
+    <div class="ticker-item">TATAMOTORS: ₹530.00 <span style="color: red;">-0.19%</span></div>
+    <div class="ticker-item">L&T: ₹2,500.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">HCLTECH: ₹1,789.55 <span style="color: red;">-0.12%</span></div>
+    <div class="ticker-item">ASIANPAINT: ₹3,000.00 <span style="color: red;">-0.17%</span></div>
+    <div class="ticker-item">BAJFINANCE: ₹7,500.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">HDFCLIFE: ₹700.00 <span style="color: red;">-0.14%</span></div>
+    <div class="ticker-item">KOTAKBANK: ₹1,800.00 <span style="color: red;">-0.17%</span></div>
+    <div class="ticker-item">TITAN: ₹2,500.00 <span style="color: red;">-0.20%</span></div>
+    <div class="ticker-item">JSWSTEEL: ₹800.00 <span style="color: red;">-0.25%</span></div>
+    <div class="ticker-item">NTPC: ₹326.40 <span style="color: green;">+0.25%</span></div>
+  </div>
+</div>
+
+</body>
+</html>

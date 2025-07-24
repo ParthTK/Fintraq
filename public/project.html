@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FintraQ</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #ff7eb3, #ff758c, #6a11cb, #2575fc);
+      background-size: 300% 300%;
+      animation: gradientMove 12s infinite;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      text-align: center;
+      background: linear-gradient(to right, #849ec9, #b59ace);
+      padding: 50px 20px;
+      margin-bottom: 50px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    .hero a {
+      background: #fff;
+      color: #849ec9;
+      text-decoration: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .hero a:hover {
+      background: #ddd;
+      color: #5b84b1;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .slider {
+      display: flex;
+      gap: 20px;
+      animation: slide 40s linear infinite;
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .card {
+      flex: 0 0 auto;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+      animation-delay: calc(var(--i) * 0.5s);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .card:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .card h3 {
+      font-size: 22px;
+      color: #e8c3f8;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .ticker {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      font-size: 18px;
+      padding: 5px 0;
+      z-index: 10;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .ticker-content {
+      display: flex;
+      animation: tickerMove 30s linear infinite; /* Adjusted animation speed */
+    }
+
+    .ticker-item {
+      display: inline-block;
+      margin-right: 50px;
+      white-space: nowrap;
+    }
+
+    @keyframes tickerMove {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .title {
+      font-family: 'Pacifico', cursive;
+      text-align: center;
+      font-size: 80px;
+      margin: 30px 0 20px;
+      color: white;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px 0;
+      background: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .navbar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Dropdown Menu Styling */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      color: #333;
+      min-width: 160px;
+      padding: 10px 0;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      border-radius: 5px;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 14px;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    .translucent-card {
+      margin: 50px auto;
+      max-width: 1000px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+    }
+
+    .content {
+      max-width: 50%;
+    }
+
+    .content h1 {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    .content p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .image-container {
+      width: 80%;
+      height: 300px;
+      overflow: hidden;
+      position: relative;
+      background: transparent;
+    }
+
+    .image-container img {
+      position: absolute;
+      top: 0;
+      right: -35%;
+      width: 126%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .section {
+      padding: 100px 10%;
+      text-align: center;
+    }
+
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .feature {
+      background: white;
+      color: #6A11CB;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      max-width: 300px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .feature h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .feature p {
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .feature:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px 10%;
+      background: rgba(0, 0, 0, 0.2);
+      color: white;
+    }
+
+    .footer a {
+      text-decoration: none;
+      color: white;
+      margin: 0 10px;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Title -->
+  <div class="title">FintraQ</div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="project.html">Home</a>
+    <div class="dropdown">
+      <a href="#">Portfolio</a>
+      <div class="dropdown-content">
+        <a href="stocks.html">Stocks</a>
+        <a href="mutual_funds.html">Mutual Funds</a>
+        <a href="crypto.html">Crypto</a>
+        <a href="esc_funds.html">ESC Funds</a>
+      </div>
+    </div>
+    <a href="user_login.html">Login</a>
+    <a href="user_reg.html">Register</a>
+  </div>
+
+  <!-- Welcome Section -->
+  <div class="translucent-card">
+    <div class="content">
+      <h1>Welcome to FintraQ</h1>
+      <p>Empowering everyone with financial tools. Budget, invest, and save for your goals with personalized insights.</p>
+    </div>
+    <div class="image-container">
+      <img src="../assets/project.png" alt="Welcome Image">
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>Empower Your Financial Journey</h1>
+    <p>Manage investments in stocks and crypto securely and efficiently with portfolio optimization.</p>
+    <a href="user_login.html">Get Started</a>
+  </div>
+
+  <div class="container">
+    <div class="slider">
+      <div class="card" style="--i:0;">
+        <h3>RSVP Movies Expands Production Budget</h3>
+        <p>Ronnie Screwvala's RSVP Movies is increasing its annual production budget to ₹200-250 crore, focusing on sports films and innovative storytelling.</p>
+      </div>
+      <div class="card" style="--i:1;">
+        <h3>Australian Open 2025 Advertising Deals</h3>
+        <p>Sony Sports Network has secured major advertisers like Rolex, Kia Motors, and Apple for the Australian Open 2025, highlighting India's growing tennis interest.</p>
+      </div>
+      <div class="card" style="--i:2;">
+        <h3>Adani Group Rally</h3>
+        <p>Adani Power surged 19%, and Adani Green Energy rose 14%, driven by renewable energy expansion announcements.</p>
+      </div>
+      <div class="card" style="--i:3;">
+        <h3>Cardiovascular Risks in Type 2 Diabetes</h3>
+        <p>Studies stress lifestyle interventions and advanced healthcare to combat high cardiovascular risks in Type 2 Diabetes patients in India.</p>
+      </div>
+      <div class="card" style="--i:4;">
+        <h3>Maruti Suzuki Launches e-VITARA</h3>
+        <p>The electric SUV boasts a 500 km range, aligning with India's push toward sustainable mobility solutions.</p>
+      </div>
+      <div class="card" style="--i:5;">
+        <h3>Tech Mahindra’s Record Q3 Profits</h3>
+        <p>Tech Mahindra posted a 93% YoY increase in Q3 net profits, driven by demand in AI and digital transformation services.</p>
+      </div>
+      <div class="card" style="--i:6;">
+        <h3>India’s AI Push</h3>
+        <p>Indian startups and tech giants are investing in AI for agriculture, healthcare, and education, supported by government initiatives.</p>
+      </div>
+      <div class="card" style="--i:7;">
+        <h3>ISRO’s SpaceTech Developments</h3>
+        <p>ISRO is ramping up private collaborations for satellite launches, boosting India's SpaceTech sector.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="section">
+    <div class="features">
+      <div class="feature">
+        <img src="..\assets\budget.png" alt="Budget Management">
+        <h3>Budget Management</h3>
+        <p>Create, track, and adjust your budget seamlessly to stay on top of your expenses.</p>
+      </div>
+      <div class="feature">
+        <img src="../assets/inv.png" alt="Investment Tracking">
+        <h3>Investment Tracking</h3>
+        <p>Get real-time insights and learn to grow your wealth with actionable advice.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker">
+    <div class="ticker-content">
+      <!-- List of 50 companies with color changes for percentage -->
+      <div class="ticker-item">TCS: ₹4,124.30 <span style="color: red;">-1.95%</span></div>
+      <div class="ticker-item">INFY: ₹1,815.10 <span style="color: red;">-5.77%</span></div>
+      <div class="ticker-item">RELIANCE: ₹1,301.30 <span style="color: green;">+2.57%</span></div>
+      <div class="ticker-item">HDFCBANK: ₹1,710.00 <span style="color: red;">-0.12%</span></div>
+      <div class="ticker-item">ITC: ₹405.00 <span style="color: red;">-0.49%</span></div>
+      <div class="ticker-item">AXISBANK: ₹900.00 <span style="color: red;">-0.22%</span></div>
+      <div class="ticker-item">ICICIBANK: ₹1,050.00 <span style="color: red;">-0.19%</span></div>
+      <div class="ticker-item">BHEL: ₹80.00 <span style="color: red;">-1.00%</span></div>
+      <div class="ticker-item">GAIL: ₹120.00 <span style="color: green;">+0.50%</span></div>
+      <div class="ticker-item">RELIANCEINFRA: ₹500.00 <span style="color: red;">-0.10%</span></div>
+      <div class="ticker-item">ADANIGREEN: ₹1,000.00 <span style="color: green;">+1.20%</span></div>
+      <div class="ticker-item">ADANIPORTS: ₹750.00 <span style="color: red;">-0.25%</span></div>
+      <div class="ticker-item">TECHM: ₹1,400.00 <span style="color: red;">-0.40%</span></div>
+      <div class="ticker-item">ZOMATO: ₹130.00 <span style="color: green;">+1.50%</span></div>
+      <div class="ticker-item">SHREECEM: ₹25,000.00 <span style="color: red;">-0.10%</span></div>
+      <div class="ticker-item">BHARTIARTL: ₹860.00 <span style="color: red;">-0.23%</span></div>
+      <div class="ticker-item">HUL: ₹2,750.00 <span style="color: red;">-0.18%</span></div>
+      <div class="ticker-item">WIPRO: ₹400.00 <span style="color: red;">-2.12%</span></div>
+      <div class="ticker-item">MARUTI: ₹8,200.00 <span style="color: red;">-0.24%</span></div>
+      <div class="ticker-item">MAHINDRA: ₹1,250.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">SUNPHARMA: ₹1,080.00 <span style="color: red;">-0.18%</span></div>
+      <div class="ticker-item">ULTRACEMCO: ₹8,500.00 <span style="color: red;">-0.18%</span></div>
+      <div class="ticker-item">TATAMOTORS: ₹530.00 <span style="color: red;">-0.19%</span></div>
+      <div class="ticker-item">L&T: ₹2,500.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">HCLTECH: ₹1,789.55 <span style="color: red;">-0.12%</span></div>
+      <div class="ticker-item">ASIANPAINT: ₹3,000.00 <span style="color: red;">-0.17%</span></div>
+      <div class="ticker-item">BAJFINANCE: ₹7,500.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">HDFCLIFE: ₹700.00 <span style="color: red;">-0.14%</span></div>
+      <div class="ticker-item">KOTAKBANK: ₹1,800.00 <span style="color: red;">-0.17%</span></div>
+      <div class="ticker-item">TITAN: ₹2,500.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">JSWSTEEL: ₹800.00 <span style="color: red;">-0.25%</span></div>
+      <div class="ticker-item">NTPC: ₹326.40 <span style="color: green;">+0.25%</span></div>
+      <div class="ticker-item">POWERGRID: ₹200.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">ONGC: ₹150.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">SBI: ₹600.00 <span style="color: red;">-0.17%</span></div>
+      <div class="ticker-item">BAJAJ-AUTO: ₹3,500.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">DIVISLAB: ₹4,000.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">M&M: ₹1,700.00 <span style="color: red;">-0.30%</span></div>
+      <div class="ticker-item">TATAPOWER: ₹220.00 <span style="color: red;">-0.18%</span></div>
+      <div class="ticker-item">UPL: ₹800.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">BPCL: ₹320.00 <span style="color: red;">-0.30%</span></div>
+      <div class="ticker-item">IOC: ₹120.00 <span style="color: red;">-0.50%</span></div>
+      <div class="ticker-item">HINDALCO: ₹600.00 <span style="color: red;">-0.10%</span></div>
+      <div class="ticker-item">AMBUJACEM: ₹300.00 <span style="color: red;">-0.25%</span></div>
+      <div class="ticker-item">ACC: ₹1,800.00 <span style="color: red;">-0.30%</span></div>
+      <div class="ticker-item">BOSCHLTD: ₹20,000.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">CIPLA: ₹900.00 <span style="color: red;">-0.15%</span></div>
+      <div class="ticker-item">SUNTV: ₹550.00 <span style="color: red;">-0.25%</span></div>
+
+      <!-- Duplicate the list to ensure seamless looping -->
+      <div class="ticker-item">TCS: ₹4,124.30 <span style="color: red;">-1.95%</span></div>
+      <div class="ticker-item">INFY: ₹1,815.10 <span style="color: red;">-5.77%</span></div>
+      <div class="ticker-item">RELIANCE: ₹1,301.30 <span style="color: green;">+2.57%</span></div>
+      <div class="ticker-item">HDFCBANK: ₹1,710.00 <span style="color: red;">-0.12%</span></div>
+      <div class="ticker-item">ITC: ₹405.00 <span style="color: red;">-0.49%</span></div>
+      <div class="ticker-item">AXISBANK: ₹900.00 <span style="color: red;">-0.22%</span></div>
+      <div class="ticker-item">ICICIBANK: ₹1,050.00 <span style="color: red;">-0.19%</span></div>
+      <div class="ticker-item">BHARTIARTL: ₹860.00 <span style="color: red;">-0.23%</span></div>
+      <div class="ticker-item">HUL: ₹2,750.00 <span style="color: red;">-0.18%</span></div>
+      <div class="ticker-item">WIPRO: ₹400.00 <span style="color: red;">-2.12%</span></div>
+      <div class="ticker-item">MARUTI: ₹8,200.00 <span style="color: red;">-0.24%</span></div>
+      <div class="ticker-item">MAHINDRA: ₹1,250.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">SUNPHARMA: ₹1,080.00 <span style="color: red;">-0.18%</span></div>
+      <div class="ticker-item">ULTRACEMCO: ₹8,500.00 <span style="color: red;">-0.18%</span></div>
+      <div class="ticker-item">TATAMOTORS: ₹530.00 <span style="color: red;">-0.19%</span></div>
+      <div class="ticker-item">L&T: ₹2,500.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">HCLTECH: ₹1,789.55 <span style="color: red;">-0.12%</span></div>
+      <div class="ticker-item">ASIANPAINT: ₹3,000.00 <span style="color: red;">-0.17%</span></div>
+      <div class="ticker-item">BAJFINANCE: ₹7,500.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">HDFCLIFE: ₹700.00 <span style="color: red;">-0.14%</span></div>
+      <div class="ticker-item">KOTAKBANK: ₹1,800.00 <span style="color: red;">-0.17%</span></div>
+      <div class="ticker-item">TITAN: ₹2,500.00 <span style="color: red;">-0.20%</span></div>
+      <div class="ticker-item">JSWSTEEL: ₹800.00 <span style="color: red;">-0.25%</span></div>
+      <div class="ticker-item">NTPC: ₹326.40 <span style="color: green;">+0.25%</span></div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+/* Ticker CSS */
+.ticker {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 25px;
+  padding: 5px 0;
+  overflow: hidden;
+  z-index: 10;
+  height: 40px;
+}
+
+.ticker-content {
+  display: flex;
+  animation: tickerMove 20s linear infinite;
+}
+
+.ticker-item {
+  display: inline-block;
+  margin-right: 50px;
+  white-space: nowrap;
+  font-size: 18px;
+}
+
+.ticker-item img {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes tickerMove {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

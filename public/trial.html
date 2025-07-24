@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FintraQ</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #ff7eb3, #ff758c, #6a11cb, #2575fc);
+      background-size: 300% 300%;
+      animation: gradientMove 12s infinite;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      text-align: center;
+      background: linear-gradient(to right, #849ec9, #b59ace);
+      padding: 50px 20px;
+      margin-bottom: 50px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+
+    .hero a {
+      background: #fff;
+      color: #849ec9;
+      text-decoration: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .hero a:hover {
+      background: #ddd;
+      color: #5b84b1;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .slider {
+      display: flex;
+      gap: 20px;
+      animation: slide 40s linear infinite;
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .card {
+      flex: 0 0 auto;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+      animation-delay: calc(var(--i) * 0.5s);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .card:hover {
+      transform: scale(1.08);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .card h3 {
+      font-size: 22px;
+      color: #e8c3f8;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .ticker {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      font-size: 18px;
+      padding: 5px 0;
+      z-index: 10;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .ticker-content {
+      display: flex;
+      animation: tickerMove 30s linear infinite;
+    }
+
+    .ticker-item {
+      display: inline-block;
+      margin-right: 50px;
+      white-space: nowrap;
+    }
+
+    @keyframes tickerMove {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .title {
+      font-family: 'Pacifico', cursive;
+      text-align: center;
+      font-size: 80px;
+      margin: 30px 0 20px;
+      color: white;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 15px 0;
+      background: rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .navbar a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Title -->
+  <div class="title">FintraQ</div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="project.html">Home</a>
+    <div class="dropdown">
+      <a href="#">Portfolio</a>
+      <div class="dropdown-content">
+        <a href="stocks.html">Stocks</a>
+        <a href="mutual_funds.html">Mutual Funds</a>
+        <a href="crypto.html">Crypto</a>
+        <a href="esc_funds.html">ESC Funds</a>
+      </div>
+    </div>
+    <a href="user_login.html">Login</a>
+    <a href="user_reg.html">Register</a>
+  </div>
+
+  <!-- Welcome Section -->
+  <div class="translucent-card">
+    <div class="content">
+      <h1>Welcome to FintraQ</h1>
+      <p>Empowering everyone with financial tools. Budget, invest, and save for your goals with personalized insights.</p>
+    </div>
+    <div class="image-container">
+      <img src="../assets/project.png" alt="Welcome Image">
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>Empower Your Financial Journey</h1>
+    <p>Manage investments in stocks and crypto securely and efficiently with portfolio optimization.</p>
+    <a href="user_login.html">Get Started</a>
+  </div>
+
+  <div class="container">
+    <div class="slider">
+      <div class="card" style="--i:0;">
+        <h3>RSVP Movies Expands Production Budget</h3>
+        <p>Ronnie Screwvala's RSVP Movies is increasing its annual production budget to ₹200-250 crore, focusing on sports films and innovative storytelling.</p>
+      </div>
+      <div class="card" style="--i:1;">
+        <h3>Australian Open 2025 Advertising Deals</h3>
+        <p>Sony Sports Network has secured major advertisers like Rolex, Kia Motors, and Apple for the Australian Open 2025, highlighting India's growing tennis interest.</p>
+      </div>
+      <div class="card" style="--i:2;">
+        <h3>Adani Group Rally</h3>
+        <p>Adani Power surged 19%, and Adani Green Energy rose 14%, driven by renewable energy expansion announcements.</p>
+      </div>
+      <div class="card" style="--i:3;">
+        <h3>Cardiovascular Risks in Type 2 Diabetes</h3>
+        <p>Studies stress lifestyle interventions and advanced healthcare to combat high cardiovascular risks in Type 2 Diabetes patients in India.</p>
+      </div>
+      <div class="card" style="--i:4;">
+        <h3>Maruti Suzuki Launches e-VITARA</h3>
+        <p>The electric SUV boasts a 500 km range, aligning with India's push toward sustainable mobility solutions.</p>
+      </div>
+      <div class="card" style="--i:5;">
+        <h3>Tech Mahindra’s Record Q3 Profits</h3>
+        <p>Tech Mahindra posted a 93% YoY increase in Q3 net profits, driven by demand in AI and digital transformation services.</p>
+      </div>
+      <div class="card" style="--i:6;">
+        <h3>India’s AI Push</h3>
+        <p>Indian startups and tech giants are investing in AI for agriculture, healthcare, and education, supported by government initiatives.</p>
+      </div>
+      <div class="card" style="--i:7;">
+        <h3>ISRO’s SpaceTech Developments</h3>
+        <p>ISRO is ramping up private collaborations for satellite launches, boosting India's SpaceTech sector.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
